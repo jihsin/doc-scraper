@@ -1,6 +1,6 @@
 # Doc Scraper 📚
 
-**通用文檔爬蟲工具** - 將任何技術文檔網站轉換為 Markdown，便於匯入 NotebookLM 學習。
+**通用文檔爬蟲工具** - 將任何技術文檔網站轉換為 Markdown/CSV/Anki 格式，建構你的「認知外掛」學習系統。
 
 ---
 
@@ -8,7 +8,9 @@
 
 - 🎯 **預設配置** - 內建多種常見文檔框架的預設配置
 - 🔧 **高度客製化** - 支援自定義選擇器和參數
-- 📄 **雙重輸出** - 同時產生合併檔案和個別章節檔案
+- 📄 **多格式輸出** - Markdown、CSV、Anki 卡片、Q&A 問答對
+- 🧠 **NotebookLM 整合** - 優化輸出格式，便於 RAG 學習
+- 🃏 **Anki 間隔重複** - 自動生成閃卡，強化記憶
 - 🚀 **簡單易用** - 一行指令即可開始爬取
 - 🔄 **可重複使用** - 學習新技術時直接套用
 
@@ -84,6 +86,9 @@ node scraper.js scrape <preset-name> [options]
 | `-u, --url <url>` | 覆蓋預設 URL | 預設配置中的 URL |
 | `-o, --output <dir>` | 輸出目錄 | `./output` |
 | `-c, --combined <file>` | 合併檔案名稱 | `combined.md` |
+| `-f, --format <format>` | 輸出格式: `md`, `csv`, `anki`, `all` | `md` |
+| `--qa` | 生成 Q&A 問答對 | 關閉 |
+| `--summary` | 生成章節摘要 | 關閉 |
 | `--content-selector <s>` | 覆蓋內容選擇器 | 預設配置中的選擇器 |
 | `--link-selector <s>` | 覆蓋連結選擇器 | 預設配置中的選擇器 |
 | `--wait <ms>` | 頁面等待時間 | 1500 |
@@ -110,6 +115,63 @@ node scraper.js scrape docusaurus --url https://docusaurus.io --output ./my-docs
 
 ```bash
 node scraper.js quick https://any-docs-site.com
+```
+
+### `convert <input>` - 格式轉換
+
+將已爬取的 Markdown 檔案轉換為其他格式：
+
+```bash
+# 轉換為 CSV
+node scraper.js convert ./output/combined.md -f csv
+
+# 轉換為 Anki 卡片
+node scraper.js convert ./output/combined.md -f anki -o my-cards.txt
+```
+
+---
+
+## 輸出格式說明
+
+### Markdown (預設)
+- **檔案**: `combined.md` + `content/*.md`
+- **用途**: NotebookLM 匯入、一般閱讀
+- **特點**: 保留原始結構，便於搜尋
+
+### CSV
+- **檔案**: `content.csv`
+- **用途**: 試算表分析、資料處理
+- **欄位**: Index, Title, URL, Content_Length, Key_Points
+
+### Anki 卡片
+- **檔案**: `anki-import.txt`
+- **用途**: 間隔重複學習
+- **格式**: Tab 分隔 (Question → Answer → Tags)
+- **匯入方式**: Anki → File → Import
+
+### Q&A 問答對
+- **檔案**: `qa-pairs.csv`
+- **用途**: 自我測驗、AI 訓練資料
+- **欄位**: Chapter, Question, Answer, Context_URL
+
+### JSON 資料
+- **檔案**: `data.json`
+- **用途**: 程式化處理、進階分析
+- **內容**: 完整結構化資料
+
+---
+
+## 輸出格式範例
+
+```bash
+# 僅輸出 Markdown（預設）
+node scraper.js scrape claude-code-cn
+
+# 輸出所有格式 + Q&A
+node scraper.js scrape claude-code-cn -f all --qa
+
+# 只要 Anki 卡片
+node scraper.js scrape vitepress --url https://vuejs.org -f anki
 ```
 
 ---
@@ -201,7 +263,11 @@ node scraper.js scrape custom \
 
 ```
 output/
-├── combined.md          # 合併的完整文檔（匯入 NotebookLM 用）
+├── combined.md          # 合併的完整 Markdown（匯入 NotebookLM 用）
+├── content.csv          # CSV 格式（試算表分析）
+├── anki-import.txt      # Anki 匯入檔（間隔重複學習）
+├── qa-pairs.csv         # Q&A 問答對（自我測驗）
+├── data.json            # JSON 結構化資料（程式處理）
 └── content/             # 個別章節
     ├── 001-introduction.md
     ├── 002-getting-started.md
@@ -221,6 +287,24 @@ output/
 **注意**：
 - NotebookLM 單一來源限制約 500KB
 - 如果檔案過大，可分批上傳 `content/` 資料夾中的個別檔案
+
+---
+
+## 匯入 Anki
+
+1. 打開 Anki 桌面版
+2. 選擇 File → Import
+3. 選取 `anki-import.txt` 檔案
+4. 設定：
+   - **Type**: Basic (and reversed card)
+   - **Field separator**: Tab
+   - **Allow HTML in fields**: 勾選
+5. 點擊 Import
+
+**卡片格式**：
+- 正面：問題（如「什麼是 Claude Code？」）
+- 背面：關鍵要點摘要
+- 標籤：章節名稱
 
 ---
 
@@ -309,6 +393,7 @@ doc-scraper/
 
 | 日期 | 版本 | 變更 |
 |------|------|------|
+| 2026-01-06 | 2.0.0 | 新增多格式輸出：CSV、Anki、Q&A、JSON；新增 convert 指令 |
 | 2026-01-06 | 1.0.0 | 初始版本 |
 
 ---
