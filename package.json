@@ -1,0 +1,30 @@
+{
+  "name": "doc-scraper",
+  "version": "1.0.0",
+  "description": "通用文檔爬蟲工具 - 將任何技術文檔網站轉換為 Markdown，便於匯入 NotebookLM 學習",
+  "main": "scraper.js",
+  "bin": {
+    "doc-scraper": "./scraper.js"
+  },
+  "scripts": {
+    "start": "node scraper.js",
+    "list": "node scraper.js list",
+    "claude-code": "node scraper.js scrape claude-code-cn -o ./downloads/claude-code"
+  },
+  "keywords": [
+    "scraper",
+    "documentation",
+    "notebooklm",
+    "learning",
+    "markdown"
+  ],
+  "author": "Tom Wang",
+  "license": "MIT",
+  "type": "commonjs",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "commander": "^14.0.2",
+    "ora": "^5.4.1",
+    "playwright": "^1.57.0"
+  }
+}

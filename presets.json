@@ -1,0 +1,86 @@
+{
+  "claude-code-cn": {
+    "name": "Claude Code 中文教程",
+    "url": "https://claudecode.tangshuang.net",
+    "indexPath": "/course",
+    "linkSelector": "a[href*='/course/']",
+    "linkFilter": "/course/",
+    "excludePatterns": ["/course$"],
+    "contentSelector": "article",
+    "fallbackSelectors": ["main", ".content", ".markdown-body"],
+    "waitTime": 1500,
+    "timeout": 30000
+  },
+  "vitepress": {
+    "name": "VitePress 文檔 (通用)",
+    "url": "",
+    "indexPath": "/guide/",
+    "linkSelector": ".VPSidebar a, .sidebar a",
+    "linkFilter": "/guide/",
+    "excludePatterns": [],
+    "contentSelector": ".vp-doc, .content",
+    "fallbackSelectors": ["main", "article"],
+    "waitTime": 1000,
+    "timeout": 30000
+  },
+  "docusaurus": {
+    "name": "Docusaurus 文檔 (通用)",
+    "url": "",
+    "indexPath": "/docs/",
+    "linkSelector": ".menu__link, .sidebar-nav a",
+    "linkFilter": "/docs/",
+    "excludePatterns": [],
+    "contentSelector": "article, .markdown",
+    "fallbackSelectors": ["main", ".docMainContainer"],
+    "waitTime": 1000,
+    "timeout": 30000
+  },
+  "gitbook": {
+    "name": "GitBook 文檔 (通用)",
+    "url": "",
+    "indexPath": "/",
+    "linkSelector": "nav a, .sidebar a",
+    "linkFilter": "",
+    "excludePatterns": ["#", "javascript:"],
+    "contentSelector": ".page-inner, .markdown-section",
+    "fallbackSelectors": ["main", "article"],
+    "waitTime": 2000,
+    "timeout": 30000
+  },
+  "readthedocs": {
+    "name": "Read the Docs (通用)",
+    "url": "",
+    "indexPath": "/",
+    "linkSelector": ".toctree-wrapper a, .wy-menu a",
+    "linkFilter": "",
+    "excludePatterns": ["#"],
+    "contentSelector": ".document, .rst-content",
+    "fallbackSelectors": ["main", "article"],
+    "waitTime": 1500,
+    "timeout": 30000
+  },
+  "nextra": {
+    "name": "Nextra 文檔 (通用)",
+    "url": "",
+    "indexPath": "/docs",
+    "linkSelector": "nav a[href*='/docs']",
+    "linkFilter": "/docs",
+    "excludePatterns": [],
+    "contentSelector": "article, .nextra-content",
+    "fallbackSelectors": ["main"],
+    "waitTime": 1500,
+    "timeout": 30000
+  },
+  "custom": {
+    "name": "自定義配置",
+    "url": "",
+    "indexPath": "/",
+    "linkSelector": "a",
+    "linkFilter": "",
+    "excludePatterns": ["#", "javascript:", "mailto:"],
+    "contentSelector": "article",
+    "fallbackSelectors": ["main", ".content", ".markdown-body", ".post-content"],
+    "waitTime": 2000,
+    "timeout": 30000
+  }
+}
